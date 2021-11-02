@@ -25,6 +25,12 @@ namespace ElectronWaller.Models
         /// <summary>
         /// 
         /// </summary>
+        [Column("x-digest")]
+        public string XDigest { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         [Column("is_active")]
         public bool IsActive { get; set; }
 

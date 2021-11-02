@@ -17,7 +17,7 @@ namespace ElectronWallet.Helper
         /// </summary>
         /// <param name="signatureString"></param>
         /// <returns></returns>
-        public static string hash_hmac(string signatureString)
+        public static string HashHmac(string signatureString)
         {
             string secretKey = "aliftech";
             HMACSHA1 hmac = new HMACSHA1(Encoding.UTF8.GetBytes(secretKey));
