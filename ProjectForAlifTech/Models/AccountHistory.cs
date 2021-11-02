@@ -1,15 +1,19 @@
 ﻿using ElectronWaller.Models;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace ElectronWallet.Models
 {
     /// <summary>
     /// 
     /// </summary>
-    [Table("user_account")]
-    public class UserAccount
+    [Table("account_history")]
+    public class AccountHistory
     {
         /// <summary>
         /// 
@@ -33,5 +37,11 @@ namespace ElectronWallet.Models
         /// </summary>
         [Column("balance")]
         public decimal Balance { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Column("date")]
+        public DateTime Date { get; set; }
     }
 }

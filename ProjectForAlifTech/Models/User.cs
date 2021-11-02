@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ElectronWaller.Models
 {
@@ -11,6 +12,7 @@ namespace ElectronWaller.Models
         /// <summary>
         /// 
         /// </summary>
+        [Key]
         [Column("id")]
         public int Id { get; set; }
 
