@@ -7,12 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ElectronWaller.DataContexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace ProjectForAlifTech
+namespace ElectronWaller
 {
     public class Startup
     {
@@ -26,7 +28,9 @@ namespace ProjectForAlifTech
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            DataContext.ConnectionString = Configuration.GetConnectionString("ElectronWallerDb");
+            services.AddDbContext<DataContext>();
+            services.AddControllers();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -54,6 +58,10 @@ namespace ProjectForAlifTech
             {
                 endpoints.MapControllers();
             });
+
+            var services = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            var context = services.ServiceProvider.GetService<DataContext>();
+            context?.Database?.Migrate();
         }
     }
 }
