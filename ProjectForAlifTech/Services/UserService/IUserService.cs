@@ -26,6 +26,6 @@ namespace ElectronWallet.Services.UserService
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        User GetById(int id);
+        User GetById(string id);
     }
 }

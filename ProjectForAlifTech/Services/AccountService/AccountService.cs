@@ -30,7 +30,7 @@ namespace ElectronWallet.Services.AccountService
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public AccountService(DataContext context,IUserService userService)
+        public AccountService(DataContext context, IUserService userService)
         {
             _context = context;
             _userService = userService;
@@ -42,11 +42,11 @@ namespace ElectronWallet.Services.AccountService
         /// <param name="Id"></param>
         /// <param name="sum"></param>
         /// <returns></returns>
-        public ResponceCoreData Credit(int Id, decimal sum)
+        public ResponceCoreData Credit(string Id, string digest, decimal sum)
         {
             try
             {
-                return TryCredit(Id, sum);
+                return TryCredit(Id, digest, sum);
             }
             catch (Exception ex)
             {
@@ -60,23 +60,25 @@ namespace ElectronWallet.Services.AccountService
         /// <param name="id"></param>
         /// <param name="sum"></param>
         /// <returns></returns>
-        private ResponceCoreData TryCredit(int id, decimal sum)
+        private ResponceCoreData TryCredit(string id, string digest, decimal sum)
         {
             var user = _userService.GetById(id);
-            var account = _context.UserAccounts.FirstOrDefault(f => f.UserId == id);
+            if (user == null || user.XUserId != id && user.XDigest != digest)
+                throw new Exception("X-UserId yoki X-Digest noto'g'ri");
 
+            var account = _context.UserAccounts.FirstOrDefault(f => f.UserId == user.Id);
             if (account != null)
             {
                 account.Balance += sum;
                 if (user.IsActive && account.Balance > 100000)
                     throw new Exception("Eng ko'pi bilan 100000 bo'ladi");
-                else if(!user.IsActive && account.Balance > 10000)
+                else if (!user.IsActive && account.Balance > 10000)
                     throw new Exception("Eng ko'pi bilan 10000 bo'ladi");
 
                 _context.UserAccounts.Update(account);
                 _context.SaveChanges();
 
-                AddHistory(id, account,sum);
+                AddHistory(user.Id, account, sum);
 
                 return new ResponceCoreData();
             }
@@ -89,7 +91,7 @@ namespace ElectronWallet.Services.AccountService
         /// </summary>
         /// <param name="id"></param>
         /// <param name="account"></param>
-        private void AddHistory(int id, Models.UserAccount account,decimal sum)
+        private void AddHistory(int id, Models.UserAccount account, decimal sum)
         {
             var history = new AccountHistory();
             history.AccountId = account.Id;
@@ -104,24 +106,13 @@ namespace ElectronWallet.Services.AccountService
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="sum"></param>
-        /// <returns></returns>
-        public ResponceCoreData Debit(int Id, decimal sum)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public ResponceCoreData GetBalance(int userId)
+        public ResponceCoreData GetBalance(string userId, string digest)
         {
             try
             {
-                return TryGetBalance(userId);
+                return TryGetBalance(userId, digest);
             }
             catch (Exception ex)
             {
@@ -134,9 +125,12 @@ namespace ElectronWallet.Services.AccountService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        private ResponceCoreData TryGetBalance(int userId)
+        private ResponceCoreData TryGetBalance(string userId, string digest)
         {
-            var account = _context.UserAccounts.FirstOrDefault(f => f.UserId == userId);
+            var user = _userService.GetById(userId);
+            if (user == null || user.XUserId != userId && user.XDigest != digest)
+                throw new Exception("X-UserId yoki X-Digest noto'g'ri");
+            var account = _context.UserAccounts.FirstOrDefault(f => f.UserId == user.Id);
 
             if (account == null)
                 throw new Exception("Bunday hamyon mavjud emas");
@@ -144,11 +138,11 @@ namespace ElectronWallet.Services.AccountService
             return new ResponceCoreData(account.Balance);
         }
 
-        public ResponceCoreData GetWaller(int userId)
+        public ResponceCoreData GetWaller(string userId, string digest)
         {
             try
             {
-                return TryGetWaller(userId);
+                return TryGetWaller(userId, digest);
             }
             catch (Exception ex)
             {
@@ -161,10 +155,14 @@ namespace ElectronWallet.Services.AccountService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        private ResponceCoreData TryGetWaller(int userId)
+        private ResponceCoreData TryGetWaller(string userId, string digest)
         {
-            var account = _context.UserAccounts.Include(s=>s.UserModel).FirstOrDefault(f => f.UserId == userId);
-            if(account==null)
+            var user = _userService.GetById(userId);
+            if (user == null || user.XUserId != userId && user.XDigest != digest)
+                throw new Exception("X-UserId yoki X-Digest noto'g'ri");
+
+            var account = _context.UserAccounts.FirstOrDefault(f => f.UserId == user.Id);
+            if (account == null)
                 throw new Exception("Bunday hamyon mavjud emas");
 
             var accountViewMode = new UserAccountViewModel(account.Name, account.Balance, account.UserModel?.XUserId);

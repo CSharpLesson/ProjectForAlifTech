@@ -17,28 +17,20 @@ namespace ElectronWallet.Services.AccountService
         /// <param name="Id"></param>
         /// <param name="sum"></param>
         /// <returns></returns>
-        ResponceCoreData Credit(int Id, decimal sum);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="sum"></param>
-        /// <returns></returns>
-        ResponceCoreData Debit(int Id, decimal sum);
+        ResponceCoreData Credit(string Id, string digest, decimal sum);       
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        ResponceCoreData GetBalance(int userId);
+        ResponceCoreData GetBalance(string userId, string digest);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        ResponceCoreData GetWaller(int userId);
+        ResponceCoreData GetWaller(string userId, string digest);
     }
 }

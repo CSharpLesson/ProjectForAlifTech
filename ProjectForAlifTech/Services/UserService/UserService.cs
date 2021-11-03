@@ -55,39 +55,22 @@ namespace ElectronWallet.Services.UserService
         /// <param name="model"></param>
         /// <returns></returns>
         private ResponceCoreData TryLogin(UserLoginViewModel model)
-        {
-            var hashDigest = GenerateHash.HashHmac(model.XDigest);
-            var user = _context.Users.FirstOrDefault(f => f.XUserId == model.XUserId && f.XDigest == hashDigest);
+        {            
+            var user = _context.Users.FirstOrDefault(f => f.XUserId == model.XUserId && f.XDigest == model.XDigest );
+            if (user != null)
+                return new ResponceCoreData();
 
-            return GenerateJwtToken(user);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        private ResponceCoreData GenerateJwtToken(ElectronWaller.Models.User user)
-        {
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
-                    new[] { new Claim(nameof(user.Id), user.Id.ToString()) },
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return new ResponceCoreData(encodedJwt);
-        }
+            return new ResponceCoreData(new Exception("Bunday foydalanuvchi mavjud emas"));
+        }        
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public User GetById(int id)
+        public User GetById(string id)
         {
-            return _context.Users.FirstOrDefault(f => f.Id == id);
+            return _context.Users.FirstOrDefault(f => f.XUserId == id);
         }
     }
 }

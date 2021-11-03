@@ -18,6 +18,9 @@ using Microsoft.IdentityModel.Tokens;
 using ElectronWallet.Helper;
 using Microsoft.AspNetCore.Http;
 using ElectronWallet.Services.UserService;
+using ElectronWallet.Services.AccountService;
+using ElectronWaller.Jwt;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ElectronWaller
 {
@@ -41,33 +44,9 @@ namespace ElectronWaller
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectForAlifTech", Version = "v1" });
             });
-
+            
             services.AddTransient<IUserService, UserService>();
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
-                    {
-                        options.RequireHttpsMetadata = false;
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            // укзывает, будет ли валидироваться издатель при валидации токена
-                            ValidateIssuer = true,
-                            // строка, представляющая издателя
-                            ValidIssuer = AuthOptions.ISSUER,
-
-                            // будет ли валидироваться потребитель токена
-                            ValidateAudience = true,
-                            // установка потребителя токена
-                            ValidAudience = AuthOptions.AUDIENCE,
-                            // будет ли валидироваться время существования
-                            ValidateLifetime = true,
-
-                            // установка ключа безопасности
-                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                            // валидация ключа безопасности
-                            ValidateIssuerSigningKey = true,
-                        };
-                    });
+            services.AddTransient<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +63,7 @@ namespace ElectronWaller
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
