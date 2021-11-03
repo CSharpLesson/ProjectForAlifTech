@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ElectronWallet.Helper;
+using Microsoft.AspNetCore.Http;
 
 namespace ElectronWaller
 {
@@ -86,6 +87,9 @@ namespace ElectronWaller
             {
                 endpoints.MapControllers();
             });
+
+            if (app.ApplicationServices.GetService<IHttpContextAccessor>() != null)
+                HttpContextHelper.Accessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
 
             var services = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var context = services.ServiceProvider.GetService<DataContext>();
