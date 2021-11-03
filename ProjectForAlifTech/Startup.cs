@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ElectronWallet.Helper;
 using Microsoft.AspNetCore.Http;
+using ElectronWallet.Services.UserService;
 
 namespace ElectronWaller
 {
@@ -40,6 +41,8 @@ namespace ElectronWaller
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectForAlifTech", Version = "v1" });
             });
+
+            services.AddTransient<IUserService, UserService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>

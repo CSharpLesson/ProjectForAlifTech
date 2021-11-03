@@ -1,4 +1,5 @@
 ﻿using ElectronWaller.DataContexts;
+using ElectronWaller.Models;
 using ElectronWallet.Helper;
 using ElectronWallet.ViewModels;
 using Microsoft.IdentityModel.Tokens;
@@ -70,13 +71,23 @@ namespace ElectronWallet.Services.UserService
         {
             var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,                    
-                    new[] {new Claim(nameof(user.Id),user.Id.ToString())} ,                    
+                    audience: AuthOptions.AUDIENCE,
+                    new[] { new Claim(nameof(user.Id), user.Id.ToString()) },
                     signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             return new ResponceCoreData(encodedJwt);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public User GetById(int id)
+        {
+            return _context.Users.FirstOrDefault(f => f.Id == id);
         }
     }
 }

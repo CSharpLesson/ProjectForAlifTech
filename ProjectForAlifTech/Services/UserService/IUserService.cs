@@ -1,4 +1,5 @@
-﻿using ElectronWallet.Helper;
+﻿using ElectronWaller.Models;
+using ElectronWallet.Helper;
 using ElectronWallet.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,12 @@ namespace ElectronWallet.Services.UserService
         /// <param name="xDidets"></param>
         /// <returns></returns>
         ResponceCoreData Login(UserLoginViewModel model);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        User GetById(int id);
     }
 }
