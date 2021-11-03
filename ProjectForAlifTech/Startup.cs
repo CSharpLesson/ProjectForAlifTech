@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Http;
 using ElectronWallet.Services.UserService;
 using ElectronWallet.Services.AccountService;
 using Microsoft.AspNetCore.Authentication;
+using ElectronWallet.Services.AccountHostoryService;
 
 namespace ElectronWaller
 {
@@ -46,6 +47,7 @@ namespace ElectronWaller
             
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IAccountHistoryService, AccountHistoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

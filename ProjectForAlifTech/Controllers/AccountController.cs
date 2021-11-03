@@ -1,4 +1,5 @@
 ﻿using ElectronWallet.Helper;
+using ElectronWallet.Services.AccountHostoryService;
 using ElectronWallet.Services.AccountService;
 using ElectronWallet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -23,10 +24,16 @@ namespace ElectronWallet.Controllers
         /// <summary>
         /// 
         /// </summary>
+        IAccountHistoryService _accountHistoryService;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="accountService"></param>
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IAccountHistoryService accountHistoryService)
         {
             _accountService = accountService;
+            _accountHistoryService = accountHistoryService;
         }
 
         /// <summary>
@@ -49,7 +56,7 @@ namespace ElectronWallet.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public ResponceCoreData GetBalance() 
         {            
             return _accountService.GetBalance(XUserId,XDigest);
@@ -70,10 +77,21 @@ namespace ElectronWallet.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [HttpGet]        
+        [HttpPost]        
         public ResponceCoreData GetWaller() 
         {
             return _accountService.GetWaller(XUserId,XDigest);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponceCoreData GetHistory([FromBody] HistoryParamViewModel model) 
+        {
+            return _accountHistoryService.GetHistory(model, new UserLoginViewModel(XUserId, XDigest));
         }
     }
 }
