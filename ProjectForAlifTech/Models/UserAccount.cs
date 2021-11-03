@@ -21,12 +21,18 @@ namespace ElectronWallet.Models
         /// <summary>
         /// 
         /// </summary>
+        [Column("name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         [Column("user_id")]
         [ForeignKey(nameof(UserModel))]
         public int UserId { get; set; }
 
         [IgnoreDataMember]
-        public virtual User UserModel { get; set; }
+        public virtual User UserModel { get; set; }        
 
         /// <summary>
         /// 

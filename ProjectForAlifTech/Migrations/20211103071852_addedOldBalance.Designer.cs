@@ -3,15 +3,17 @@ using System;
 using ElectronWaller.DataContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ElectronWallet.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211103071852_addedOldBalance")]
+    partial class addedOldBalance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,10 +86,6 @@ namespace ElectronWallet.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("date");
 
-                    b.Property<decimal>("OldBalance")
-                        .HasColumnType("numeric")
-                        .HasColumnName("old_balance");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
@@ -117,6 +115,10 @@ namespace ElectronWallet.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
+                    b.Property<decimal>("OldBalance")
+                        .HasColumnType("numeric")
+                        .HasColumnName("old_balance");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
@@ -133,6 +135,7 @@ namespace ElectronWallet.Migrations
                             Id = 1,
                             Balance = 50000m,
                             Name = "Click.uz",
+                            OldBalance = 0m,
                             UserId = 1
                         },
                         new
@@ -140,6 +143,7 @@ namespace ElectronWallet.Migrations
                             Id = 2,
                             Balance = 6000m,
                             Name = "Apelsin",
+                            OldBalance = 0m,
                             UserId = 2
                         });
                 });

@@ -3,15 +3,17 @@ using System;
 using ElectronWaller.DataContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ElectronWallet.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211103064554_changeAccountModel")]
+    partial class changeAccountModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,10 +85,6 @@ namespace ElectronWallet.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("date");
-
-                    b.Property<decimal>("OldBalance")
-                        .HasColumnType("numeric")
-                        .HasColumnName("old_balance");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer")

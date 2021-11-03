@@ -35,6 +35,22 @@ namespace ElectronWallet.Models
         /// <summary>
         /// 
         /// </summary>
+        [Column("account_id")]
+        [ForeignKey(nameof(AccountModel))]
+        public int AccountId { get; set; }
+
+        [IgnoreDataMember]
+        public virtual UserAccount AccountModel { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Column("old_balance")]
+        public decimal OldBalance { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         [Column("balance")]
         public decimal Balance { get; set; }
 

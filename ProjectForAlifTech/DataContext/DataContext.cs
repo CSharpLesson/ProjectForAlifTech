@@ -50,8 +50,8 @@ namespace ElectronWaller.DataContexts
                 new User() { Id = 2, XUserId = "akrom_ia", XDigest = GenerateHash.HashHmac("sky"), IsActive = false });
 
             modelBuilder.Entity<UserAccount>().HasData(
-                new UserAccount() {Id = 1, UserId = 1, Balance = 50000},
-                new UserAccount() { Id = 2, UserId = 2, Balance = 6000 });
+                new UserAccount() {Id = 1, Name="Click.uz", UserId = 1, Balance = 50000},
+                new UserAccount() { Id = 2, Name = "Apelsin", UserId = 2, Balance = 6000 });
         }
     }
 }

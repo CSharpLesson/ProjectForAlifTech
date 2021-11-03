@@ -3,15 +3,17 @@ using System;
 using ElectronWaller.DataContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ElectronWallet.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211103064241_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,10 +74,6 @@ namespace ElectronWallet.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("integer")
-                        .HasColumnName("account_id");
-
                     b.Property<decimal>("Balance")
                         .HasColumnType("numeric")
                         .HasColumnName("balance");
@@ -84,17 +82,11 @@ namespace ElectronWallet.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("date");
 
-                    b.Property<decimal>("OldBalance")
-                        .HasColumnType("numeric")
-                        .HasColumnName("old_balance");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.HasIndex("UserId");
 
@@ -146,19 +138,11 @@ namespace ElectronWallet.Migrations
 
             modelBuilder.Entity("ElectronWallet.Models.AccountHistory", b =>
                 {
-                    b.HasOne("ElectronWallet.Models.UserAccount", "AccountModel")
-                        .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ElectronWaller.Models.User", "UserModel")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AccountModel");
 
                     b.Navigation("UserModel");
                 });
