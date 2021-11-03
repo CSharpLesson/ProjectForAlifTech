@@ -45,6 +45,7 @@ namespace ElectronWaller
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectForAlifTech", Version = "v1" });
             });
             
+            services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IAccountHistoryService, AccountHistoryService>();
@@ -59,6 +60,7 @@ namespace ElectronWaller
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProjectForAlifTech v1"));
             }
+
 
             app.UseHttpsRedirection();
 
@@ -75,9 +77,12 @@ namespace ElectronWaller
             if (app.ApplicationServices.GetService<IHttpContextAccessor>() != null)
                 HttpContextHelper.Accessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
 
+            
+
             var services = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var context = services.ServiceProvider.GetService<DataContext>();
             context?.Database?.Migrate();
+            app.UseMvc();
         }
     }
 }
