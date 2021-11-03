@@ -1,5 +1,6 @@
 ﻿using ElectronWallet.Helper;
 using ElectronWallet.Services.AccountService;
+using ElectronWallet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -60,9 +61,9 @@ namespace ElectronWallet.Controllers
         /// <param name="Sum"></param>
         /// <returns></returns>
         [HttpPost]
-        public ResponceCoreData Credite([FromBody] decimal Sum) 
+        public ResponceCoreData Credite([FromBody] AccountCreditModel model) 
         {
-            return _accountService.Credit(XUserId,XDigest ,Sum);
+            return _accountService.Credit(XUserId,XDigest ,model.Sum);
         }
 
         /// <summary>

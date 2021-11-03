@@ -19,7 +19,6 @@ using ElectronWallet.Helper;
 using Microsoft.AspNetCore.Http;
 using ElectronWallet.Services.UserService;
 using ElectronWallet.Services.AccountService;
-using ElectronWaller.Jwt;
 using Microsoft.AspNetCore.Authentication;
 
 namespace ElectronWaller
