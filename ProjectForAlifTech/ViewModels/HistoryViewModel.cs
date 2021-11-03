@@ -8,5 +8,5 @@ namespace ElectronWallet.ViewModels
     /// <summary>
     /// 
     /// </summary>
-    public record HistoryViewModel(string UserName, string AccountName, DateTime Date, decimal Balance,decimal OldBalance);
+    public record HistoryViewModel(string UserName, string AccountName, DateTime Date, decimal OldBalance, decimal Balance);
 }

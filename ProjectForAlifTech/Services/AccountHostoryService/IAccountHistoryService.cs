@@ -1,5 +1,5 @@
 ﻿using ElectronWallet.Helper;
-using System;
+using ElectronWallet.ViewModels;
 
 namespace ElectronWallet.Services.AccountHostoryService
 {
@@ -8,6 +8,12 @@ namespace ElectronWallet.Services.AccountHostoryService
     /// </summary>
     public interface IAccountHistoryService
     {
-        ResponceCoreData GetHistory();
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="model"></param>
+       /// <param name="loginModel"></param>
+       /// <returns></returns>
+        ResponceCoreData GetHistory(HistoryParamViewModel model, UserLoginViewModel loginModel);
     }
 }
